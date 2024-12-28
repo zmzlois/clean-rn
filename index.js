@@ -5,6 +5,13 @@ const {join} = require('path')
 const {execSync:exec} = require('child_process')
 const appRoot = process.cwd()
 
+
+const args = process.argv.slice(2);
+const shouldCleanAll = args.length === 0;
+const shouldCleanAndroid = shouldCleanAll || args.includes('android');
+const shouldCleanIos = shouldCleanAll || args.includes('ios');
+
+
 function error(message) {
   console.log('\x1b[31m%s\x1b[0m', message);
 }
@@ -22,6 +29,8 @@ function hasReactNativeDependency() {
     return false;
   }
 }
+
+console.log(`clean-rn: Cleaning React Native caches for ${appRoot}..`)
 
 if (!hasReactNativeDependency()) {
   error('This is not a React Native project');
@@ -52,29 +61,43 @@ if(existsSync(join(appRoot, 'package-lock.json'))) {
   rm(join(appRoot, 'pnpm-lock.yaml'))
 }
 
-// android
-const androidPaths=[
-  '.gradle',
-  '.idea',
-  '.cxx',
-  'build',
-  'build',
-  join('app', 'build'),
-  join('app', '.cxx'),
-]
-androidPaths.forEach((p) => rm(join(appRoot, 'android', p)))
+if (shouldCleanAndroid) {
+  console.log('Cleaning Android...');
+  const androidPaths=[
+    '.gradle',
+    '.idea',
+    '.cxx',
+    'build',
+    'build',
+    join('app', 'build'),
+    join('app', '.cxx'),
+  ]
+  androidPaths.forEach((p) => rm(join(appRoot, 'android', p)))
+
+  exec(join(appRoot, 'android', 'gradlew --stop')) // stop gradle daemon
+  rm(join(homedir(), '.gradle', 'caches'))
+  exec(join(appRoot, 'android', 'gradlew clean'))
+}
 
 
-exec(join(appRoot, 'android', 'gradlew --stop')) // stop gradle daemon
-rm(join(homedir(), '.gradle', 'caches'))
-exec(join(appRoot, 'android', 'gradlew clean'))
+if (shouldCleanIos) {
+  console.log('Cleaning iOS...');
+  const iosPaths=[
+    'build',
+    'Pods',
+    'Podfile.lock',
+    'DerivedData',
+  ]
+  iosPaths.forEach((p) => rm(join(appRoot, 'ios', p)))
+}
 
-// ios
-const iosPaths=[
-  'build',
-  'Pods',
-  'Podfile.lock',
-  'DerivedData',
-]
-iosPaths.forEach((p) => rm(join(appRoot, 'ios', p)))
-console.log('Cleaned everything! Run:\n  - yarn/npm i\n  - cd ios && pod repo update && pod update\n..to reinstall everything!')
+let finalMessage = 'Cleaned everything! Run:\n';
+if (shouldCleanAll || (shouldCleanAndroid && shouldCleanIos)) {
+  finalMessage += '  - yarn/npm i\n  - cd ios && pod repo update && pod update';
+} else if (shouldCleanAndroid) {
+  finalMessage += '  - yarn/npm i';
+} else if (shouldCleanIos) {
+  finalMessage += '  - cd ios && pod repo update && pod update';
+}
+finalMessage += '\n..to reinstall everything!';
+console.log(finalMessage);

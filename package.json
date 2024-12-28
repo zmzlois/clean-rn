@@ -1,5 +1,5 @@
 {
-  "name": "@ze/clean-rn",
+  "name": "@~ze/clean-rn",
   "version": "1.0.0",
   "description": "Clean all, ios, or android React Native caches in your project.",
   "main": "index.js",
