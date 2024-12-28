@@ -10,6 +10,7 @@ Usage:
 npx @~ze/clean-rn
 ```
 
+!! Not recommend these but i just want them.
 Only clean ios:
 
 ```shell

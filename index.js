@@ -30,8 +30,6 @@ function hasReactNativeDependency() {
   }
 }
 
-console.log(`clean-rn: Cleaning React Native caches for ${appRoot}..`)
-
 if (!hasReactNativeDependency()) {
   error('This is not a React Native project');
   process.exit(1);
@@ -50,15 +48,20 @@ console.log(`clean-rn: Cleaning React Native caches for ${appRoot}..`)
 // npm
 rm(join(appRoot, 'node_modules'))
 
+console.log('node_modules deleted...')
+
 if(existsSync(join(appRoot, 'package-lock.json'))) {
   exec('npm cache clean --force')
   rm(join(appRoot, 'package-lock.json'))
+  console.log('package-lock.json deleted...')
 } else if(existsSync(join(appRoot, 'yarn.lock'))) {
   exec('yarn cache clean')
   rm(join(appRoot, 'yarn.lock'))
+  console.log('yarn.lock deleted...')
 } else if(existsSync(join(appRoot, 'pnpm-lock.yaml'))) {
   exec('pnpm store prune')
   rm(join(appRoot, 'pnpm-lock.yaml'))
+  console.log('pnpm-lock.yaml deleted...')
 }
 
 if (shouldCleanAndroid) {
@@ -76,7 +79,9 @@ if (shouldCleanAndroid) {
 
   exec(join(appRoot, 'android', 'gradlew --stop')) // stop gradle daemon
   rm(join(homedir(), '.gradle', 'caches'))
+  console.log('.gradle/caches deleted...')
   exec(join(appRoot, 'android', 'gradlew clean'))
+  console.log('gradlew clean executed...')
 }
 
 
