@@ -1,8 +1,9 @@
 {
-  "name": "clean-rn",
-  "version": "1.0.3",
-  "description": "Clean all React Native caches in your project.",
+  "name": "@~zephyr/clean-rn",
+  "version": "1.0.0",
+  "description": "Clean all, ios, or android React Native caches in your project.",
   "main": "index.js",
+  "private": true,
   "bin": {
     "clean-rn": "index.js"
   },
@@ -12,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mrousavy/clean-rn.git"
+    "url": "git+https://github.com/zmzlois/clean-rn.git"
   },
   "keywords": [
     "react",
@@ -25,10 +26,10 @@
     "ios",
     "build"
   ],
-  "author": "mrousavy (me@mrousavy.com)",
+  "author": "zmzlois (loisisar@outlook.com)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mrousavy/clean-rn/issues"
+    "url": "https://github.com/zmzlois/clean-rn/issues"
   },
-  "homepage": "https://github.com/mrousavy/clean-rn#readme"
+  "homepage": "https://github.com/zmzlois/clean-rn#readme"
 }
