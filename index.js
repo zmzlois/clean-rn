@@ -97,7 +97,7 @@ if (shouldCleanAll || (shouldCleanAndroid && shouldCleanIos)) {
 } else if (shouldCleanAndroid) {
   finalMessage += '  - yarn/npm i';
 } else if (shouldCleanIos) {
-  finalMessage += '  - cd ios && pod repo update && pod update';
+  finalMessage += '  - cd ios && bundle install && bundle exec pod install && cd ..';
 }
 finalMessage += '\n..to reinstall everything!';
 console.log(finalMessage);

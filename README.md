@@ -2,20 +2,22 @@
 
 A simple CLI tool to clean all React Native caches in your project.
 
+Require npm token.
+
 Usage:
 
 ```shell
-npx clean-rn
+npx @~ze/clean-rn
 ```
 
 Only clean ios:
 
 ```shell
-npx clean-rn ios
+npx @~ze/clean-rn ios
 ```
 
 Only clean android:
 
 ```shell
-npx clean-rn android
+npx @~ze/clean-rn android
 ```
