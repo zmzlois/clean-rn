@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,6 +17,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Publish package on NPM 📦
-        run: yarn publish
+        run: yarn publish --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
